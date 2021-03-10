@@ -20,52 +20,13 @@
         </v-col>
       </v-row>
     </v-parallax>
-    <v-container>
-      <h1 class="mt-2 mb-4" style="color: gray">Small Rooms</h1>
-      <v-row align="center" justify="center">
-        <v-col cols="12" md="4" v-for="crad in SmallRoom" :key="crad.title">
-          <v-hover v-slot:default="{ hover }">
-            <v-card
-              class="mx-auto"
-              max-width="400"
-              :elevation="hover ? 12 : 2"
-              :class="{ 'on-hover': hover }"
-              outlined
-              shaped
-            >
-              <v-img
-                class="white--text align-end"
-                height="200px"
-                :src="crad.src"
-              >
-                <!-- <v-card-title
-                ><h4 class="red--text">
-                  {{ crad.title }}
-                </h4></v-card-title
-              > -->
-              </v-img>
-
-              <v-card-subtitle class="pb-0 blue--text">
-                {{ crad.title }}
-              </v-card-subtitle>
-
-              <v-card-text class="red--text">
-                <h4>{{ crad.text }}</h4>
-              </v-card-text>
-
-              <v-card-actions>
-                <v-btn color="orange" text>
-                  Book
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-hover>
-        </v-col>
-      </v-row>
+    <div>
       <v-container>
-        <h1 class="mt-2 mb-4" style="color: gray">Big Rooms</h1>
+        <h1 class="mt-2 mb-4 bor text-center" style="color: white">
+          Small Rooms
+        </h1>
         <v-row align="center" justify="center">
-          <v-col cols="12" md="4" v-for="crad in BigRoom" :key="crad.title">
+          <v-col cols="12" md="4" v-for="crad in SmallRoom" :key="crad.title">
             <v-hover v-slot:default="{ hover }">
               <v-card
                 class="mx-auto"
@@ -81,10 +42,10 @@
                   :src="crad.src"
                 >
                   <!-- <v-card-title
-                  ><h4 class="red--text">
-                    {{ crad.title }}
-                  </h4></v-card-title
-                > -->
+                ><h4 class="red--text">
+                  {{ crad.title }}
+                </h4></v-card-title
+              > -->
                 </v-img>
 
                 <v-card-subtitle class="pb-0 blue--text">
@@ -105,7 +66,56 @@
           </v-col>
         </v-row>
       </v-container>
-    </v-container>
+    </div>
+    <div id="grey">
+      <v-container>
+        <div>
+          <h1 class="mt-2 mb-4 bor text-center" style="color: white">
+            Big Rooms
+          </h1>
+          <v-row align="center" justify="center">
+            <v-col cols="12" md="4" v-for="crad in BigRoom" :key="crad.title">
+              <v-hover v-slot:default="{ hover }">
+                <v-card
+                  class="mx-auto"
+                  max-width="400"
+                  :elevation="hover ? 12 : 2"
+                  :class="{ 'on-hover': hover }"
+                  outlined
+                  shaped
+                >
+                  <v-img
+                    class="white--text align-end"
+                    height="200px"
+                    :src="crad.src"
+                  >
+                    <!-- <v-card-title
+                  ><h4 class="red--text">
+                    {{ crad.title }}
+                  </h4></v-card-title
+                > -->
+                  </v-img>
+
+                  <v-card-subtitle class="pb-0 blue--text">
+                    {{ crad.title }}
+                  </v-card-subtitle>
+
+                  <v-card-text class="red--text">
+                    <h4>{{ crad.text }}</h4>
+                  </v-card-text>
+
+                  <v-card-actions>
+                    <v-btn color="orange" text>
+                      Book
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-hover>
+            </v-col>
+          </v-row>
+        </div>
+      </v-container>
+    </div>
   </div>
 </template>
 
@@ -221,5 +231,14 @@ export default {
 }
 .v-card {
   transition: opacity 0.4s ease-in-out;
+}
+#grey {
+  background-color: #78909c;
+}
+
+.bor {
+  border: 2px solid DodgerBlue;
+  padding: 10px;
+  background-color: DodgerBlue;
 }
 </style>
