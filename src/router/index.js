@@ -24,6 +24,11 @@ const routes = [
     path: "/cLog",
     name: "cusLogin",
     component: () => import("../views/cusLogin.vue")
+  },
+  {
+    path: "/cDate",
+    name: "Date",
+    component: () => import("../views/Date.vue")
   }
 ];
 

@@ -3,49 +3,61 @@
     <v-parallax
       dark
       transition="slide-x-transition"
-      src="https://wallpaperaccess.com/full/2568998.jpg"
+      src="https://cutewallpaper.org/21/black-gif-background/Black-gif-background-3-GIF-Images-Download.gif"
+      height="850"
+      width="auto"
+      fixed
     >
       <v-row align="center" justify="center">
         <v-col class="text-center" cols="12">
           <h1 class="display-1 subheading mb-4 hotal-title ">
-            Welcome
+            <div class="v-enter-active" v-if="!isloaded">
+              Welcome
+            </div>
           </h1>
           <h3 class="font-weight-thin hotal-title">
             <span>
-              <div>
+              <div class="v-enter-active" v-if="!isloaded">
                 to Impossible Hotel
               </div>
             </span>
           </h3>
+          <div class="text-center v-enter-active" v-if="!isloaded">
+            <v-btn class="ma-2" outlined color="yellow">Visit My Site</v-btn>
+          </div>
         </v-col>
       </v-row>
     </v-parallax>
     <div>
       <v-container>
-        <h1 class="mt-2 mb-4 bor text-center" style="color: white">
+        <h1 class="mt-2 mb-4 bor text-center sp" style="color: white">
           Small Rooms
         </h1>
         <v-row align="center" justify="center">
           <v-col cols="12" md="4" v-for="crad in SmallRoom" :key="crad.title">
-            <v-hover v-slot:default="{ hover }">
+            <v-hover v-slot="{ hover }">
               <v-card
-                class="mx-auto"
+                class="mx-auto  hovereffect"
                 max-width="400"
                 :elevation="hover ? 12 : 2"
-                :class="{ 'on-hover': hover }"
                 outlined
                 shaped
               >
                 <v-img
-                  class="white--text align-end"
+                  class="white--text align-end img-responsive"
+                  :aspect-ratio="16 / 9"
                   height="200px"
                   :src="crad.src"
                 >
-                  <!-- <v-card-title
-                ><h4 class="red--text">
-                  {{ crad.title }}
-                </h4></v-card-title
-              > -->
+                  <v-expand-transition>
+                    <div
+                      v-if="hover"
+                      class="d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text"
+                      style="height: 100%;"
+                    >
+                      {{ crad.price }} $
+                    </div>
+                  </v-expand-transition>
                 </v-img>
 
                 <v-card-subtitle class="pb-0 blue--text">
@@ -57,9 +69,26 @@
                 </v-card-text>
 
                 <v-card-actions>
-                  <v-btn color="orange" text>
-                    Book
-                  </v-btn>
+                  <v-bottom-sheet v-model="sheet" inset>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn dark color="orange" v-bind="attrs" v-on="on" text>
+                        Book
+                      </v-btn>
+                    </template>
+                    <v-sheet class="text-center" height="200px">
+                      <v-btn
+                        class="mt-6"
+                        text
+                        color="error"
+                        @click="sheet = !sheet"
+                      >
+                        close
+                      </v-btn>
+                      <div class="my-3">
+                        This is a bottom sheet using the inset prop
+                      </div>
+                    </v-sheet>
+                  </v-bottom-sheet>
                 </v-card-actions>
               </v-card>
             </v-hover>
@@ -70,17 +99,16 @@
     <div id="grey">
       <v-container>
         <div>
-          <h1 class="mt-2 mb-4 bor text-center" style="color: white">
+          <h1 class="mt-2 mb-4 bor text-center sp" style="color: white">
             Big Rooms
           </h1>
           <v-row align="center" justify="center">
             <v-col cols="12" md="4" v-for="crad in BigRoom" :key="crad.title">
-              <v-hover v-slot:default="{ hover }">
+              <v-hover v-slot="{ hover }">
                 <v-card
                   class="mx-auto"
                   max-width="400"
                   :elevation="hover ? 12 : 2"
-                  :class="{ 'on-hover': hover }"
                   outlined
                   shaped
                 >
@@ -89,11 +117,15 @@
                     height="200px"
                     :src="crad.src"
                   >
-                    <!-- <v-card-title
-                  ><h4 class="red--text">
-                    {{ crad.title }}
-                  </h4></v-card-title
-                > -->
+                    <v-expand-transition>
+                      <div
+                        v-if="hover"
+                        class="d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text"
+                        style="height: 100%;"
+                      >
+                        {{ crad.price }} $
+                      </div>
+                    </v-expand-transition>
                   </v-img>
 
                   <v-card-subtitle class="pb-0 blue--text">
@@ -105,9 +137,32 @@
                   </v-card-text>
 
                   <v-card-actions>
-                    <v-btn color="orange" text>
-                      Book
-                    </v-btn>
+                    <v-bottom-sheet v-model="sheet" inset>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          dark
+                          color="orange"
+                          v-bind="attrs"
+                          v-on="on"
+                          text
+                        >
+                          Book
+                        </v-btn>
+                      </template>
+                      <v-sheet class="text-center" height="200px">
+                        <v-btn
+                          class="mt-6"
+                          text
+                          color="error"
+                          @click="sheet = !sheet"
+                        >
+                          close
+                        </v-btn>
+                        <div class="my-3">
+                          This is a bottom sheet using the inset prop
+                        </div>
+                      </v-sheet>
+                    </v-bottom-sheet>
                   </v-card-actions>
                 </v-card>
               </v-hover>
@@ -123,22 +178,43 @@
 export default {
   data() {
     return {
-      show: false,
+      data: () => {
+        return {
+          isloaded: false,
+          sheet: false
+        };
+      },
+      methods: {
+        book(event) {
+          this.$id.$touch();
+          event.preventDefault();
+        }
+      },
+      mounted() {
+        document.onreadystatechange = () => {
+          if (document.readyState == "complete") {
+            this.isloaded = true;
+          }
+        };
+      },
       SmallRoom: [
         {
           id: 101,
+          price: "800",
           title: "Japan style",
           src: "https://www.forfur.com/img/I53/l_5234_14484298912116161592.jpg",
           text: "เตียงนอน 1 มีวิวติดทะเลให้ดู"
         },
         {
           id: 102,
+          price: "500",
           title: "Kawaii style",
           src: "https://www.forfur.com/img/I66/l_6536_1499244363235188519.jpg",
           text: "เตียงติดหน้าต่าง ตื่นมาพร้อมดูวิว"
         },
         {
           id: 103,
+          price: "555",
           title: "Relax style",
           src:
             "https://www.chillpainai.com/src/wewakeup/scoop/img_scoop/scoop/KredNoi/Bedroom/SingleBeddedRoom01.jpg",
@@ -146,6 +222,7 @@ export default {
         },
         {
           id: 104,
+          price: "750",
           title: "Best airlines",
           src:
             "http://ungsriwong.s3.ap-southeast-1.amazonaws.com/wp-content/uploads/2016/11/14094625/Gracery_001.jpg",
@@ -153,6 +230,7 @@ export default {
         },
         {
           id: 105,
+          price: "1,000",
           title: "Best Tofu",
           src:
             "http://ungsriwong.s3-ap-southeast-1.amazonaws.com/wp-content/uploads/2015/12/02074521/ShinjukuPrince_02.jpg",
@@ -160,6 +238,7 @@ export default {
         },
         {
           id: 106,
+          price: "999",
           title: "Sotetsu Fresa",
           src:
             "https://4.bp.blogspot.com/-RzKu-RkI7Dg/WUnbNKgxwLI/AAAAAAAAJUA/LMWGTCkIwvASHlQORVTo_N_vkCsa9f4swCLcBGAs/s1600/SotetsuFresa-Tokyo-Toyocho-11.jpg",
@@ -169,6 +248,7 @@ export default {
       BigRoom: [
         {
           id: 201,
+          price: "1,500",
           title: "Japan style",
           src:
             "https://cf.bstatic.com/images/hotel/max1024x768/228/228042008.jpg",
@@ -176,6 +256,7 @@ export default {
         },
         {
           id: 202,
+          price: "2,500",
           title: "Kawaii style",
           src:
             "https://cf.bstatic.com/images/hotel/max1280x900/228/228029997.jpg",
@@ -183,6 +264,7 @@ export default {
         },
         {
           id: 203,
+          price: "3,500",
           title: "Relax style",
           src:
             "https://pix10.agoda.net/hotelImages/594/5944987/5944987_19031415030072998779.jpg",
@@ -190,6 +272,7 @@ export default {
         },
         {
           id: 204,
+          price: "4,500",
           title: "Best airlines",
           src:
             "http://www.bloggang.com/data/h/happy2trips/picture/1490765573.jpg",
@@ -197,12 +280,14 @@ export default {
         },
         {
           id: 205,
+          price: "5,500",
           title: "Best Tofu",
           src: "https://www.forfur.com/img/I32/l_3107_1372162984311073507.jpg",
           text: "ห้องพักหร้อมกับธรรมชาติ"
         },
         {
           id: 206,
+          price: "6,500",
           title: "Sotetsu Fresa",
           src:
             "https://www.chillpainai.com/src/wewakeup/scoop/img_scoop/scoop/kat/khaoyai%20beautiful/potibot/room_luxe_suite_1main.jpg",
@@ -215,30 +300,77 @@ export default {
 </script>
 
 <style scope="this api replaced by slot-scope in 2.5.0+">
+.v-card--reveal {
+  align-items: center;
+  bottom: 0;
+  justify-content: center;
+  background: -webkit-linear-gradient(45deg, #ff89e9 0%, #05abe0 100%);
+  background: linear-gradient(45deg, #ff89e9 0%, #05abe0 100%);
+  opacity: 0.5;
+  position: absolute;
+  width: 100%;
+}
 .hotal-title {
-  color: #2196f3;
+  color: #fff;
   font-size: 52px;
   margin: 1px;
   font-weight: 700;
   text-transform: uppercase;
 }
 .hotal-title span {
-  color: #01579b;
-  font-weight: 900;
+  color: #fff;
+  font-size: 50px;
+  font-weight: 800;
   font-style: italic;
-  font-family: cursive;
+  font-family: "Sofia", sans-serif;
   text-transform: uppercase;
 }
 .v-card {
   transition: opacity 0.4s ease-in-out;
 }
 #grey {
-  background-color: #78909c;
+  background-color: #546e7a;
 }
 
 .bor {
+  border-radius: 100px;
   border: 2px solid DodgerBlue;
   padding: 10px;
   background-color: DodgerBlue;
+}
+
+.sp {
+  font-family: Cursive, sans-serif;
+  font-weight: 900;
+  font-style: italic;
+}
+
+/* animetinon */
+.v-enter-active {
+  animation: bounceIn 2s;
+}
+.v-leave-active {
+  animation: bounceIn 2s reverse;
+}
+.card {
+  transition: opacity 0.4s ease-in-out;
+}
+
+.card:not(.on-hover) {
+  opacity: 0.6;
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.1);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 </style>
