@@ -1,4 +1,4 @@
-<template>
+<template v-slot:placeholder>
   <div id="HomeComponent">
     <v-parallax
       dark
@@ -184,19 +184,15 @@ export default {
           sheet: false
         };
       },
-      methods: {
-        book(event) {
-          this.$id.$touch();
-          event.preventDefault();
-        }
-      },
       mounted() {
+        this.images = true;
         document.onreadystatechange = () => {
           if (document.readyState == "complete") {
             this.isloaded = true;
           }
         };
       },
+
       SmallRoom: [
         {
           id: 101,
@@ -299,78 +295,6 @@ export default {
 };
 </script>
 
-<style scope="this api replaced by slot-scope in 2.5.0+">
-.v-card--reveal {
-  align-items: center;
-  bottom: 0;
-  justify-content: center;
-  background: -webkit-linear-gradient(45deg, #ff89e9 0%, #05abe0 100%);
-  background: linear-gradient(45deg, #ff89e9 0%, #05abe0 100%);
-  opacity: 0.5;
-  position: absolute;
-  width: 100%;
-}
-.hotal-title {
-  color: #fff;
-  font-size: 52px;
-  margin: 1px;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-.hotal-title span {
-  color: #fff;
-  font-size: 50px;
-  font-weight: 800;
-  font-style: italic;
-  font-family: "Sofia", sans-serif;
-  text-transform: uppercase;
-}
-.v-card {
-  transition: opacity 0.4s ease-in-out;
-}
-#grey {
-  background-color: #546e7a;
-}
-
-.bor {
-  border-radius: 100px;
-  border: 2px solid DodgerBlue;
-  padding: 10px;
-  background-color: DodgerBlue;
-}
-
-.sp {
-  font-family: Cursive, sans-serif;
-  font-weight: 900;
-  font-style: italic;
-}
-
-/* animetinon */
-.v-enter-active {
-  animation: bounceIn 2s;
-}
-.v-leave-active {
-  animation: bounceIn 2s reverse;
-}
-.card {
-  transition: opacity 0.4s ease-in-out;
-}
-
-.card:not(.on-hover) {
-  opacity: 0.6;
-}
-
-@keyframes bounceIn {
-  0% {
-    transform: scale(0.1);
-    opacity: 0;
-  }
-  60% {
-    transform: scale(1.2);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-  }
-}
+<style scoped>
+/* @import "./assets/Styles/styles.css"; */
 </style>
